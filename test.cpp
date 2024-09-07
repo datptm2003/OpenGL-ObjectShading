@@ -160,7 +160,15 @@ int main() {
 
     // Main render loop
     while (!glfwWindowShouldClose(window)) {
+        // glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        float lightPos[3] = { 1.3f, 0.5f, 2.0f }; 
+        float lightColor[3] = { 1.0f, 1.0f, 1.0f }; 
+        float objectColor[3] = { 1.0f, 0.5f, 0.31f }; 
+
+        // Set the camera position
+        float cameraPos[3] = { 0.0f, 0.0f, 3.0f };
 
         // Set up matrices using the custom functions
         Mat4 model = translateMatrix(0.0f, 0.0f, 0.0f);
@@ -169,6 +177,13 @@ int main() {
 
         // Use shader program
         glUseProgram(shaderProgram);
+
+        // Set light and material uniforms in the shader
+        glUniform3fv(glGetUniformLocation(shaderProgram, "lightPos"), 1, lightPos);
+        glUniform3fv(glGetUniformLocation(shaderProgram, "viewPos"), 1, cameraPos);
+        glUniform3fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, lightColor);
+        glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, objectColor);
+        glUniform1f(glGetUniformLocation(shaderProgram, "shininess"), 16.0f);  // Adjust shininess as needed
 
         // Set uniforms
         int modelLoc = glGetUniformLocation(shaderProgram, "model");
