@@ -2,9 +2,9 @@
 #include <GLFW/glfw3.h>
 
 #include "src/math/constant.cpp"
-#include "src/math/matrix.cpp"
-#include "src/shader/vertexShader.cpp"
-#include "src/shader/fragmentShader.cpp"
+#include "src/math/Matrix.cpp"
+#include "src/shader/phong/vertexShader.cpp"
+#include "src/shader/phong/fragmentShader.cpp"
 
 #include <vector>
 #include <iostream>
@@ -168,12 +168,12 @@ int main() {
         float objectColor[3] = { 1.0f, 0.5f, 0.31f }; 
 
         // Set the camera position
-        float cameraPos[3] = { 0.0f, 0.0f, 3.0f };
+        float cameraPos[3] = { 0.0f, 1.0f, 3.0f };
 
         // Set up matrices using the custom functions
-        Mat4 model = translateMatrix(0.0f, 0.0f, 0.0f);
-        Mat4 view = lookAtMatrix({ 0.0f, 0.0f, 5.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        Mat4 projection = perspectiveMatrix(45.0f * M_PI / 180.0f, 800.0f / 600.0f, 0.1f, 100.0f);
+        Mat4 model = Matrix::translateMatrix(0.0f, 0.0f, 0.0f);
+        Mat4 view = Matrix::lookAtMatrix({ 0.0f, 0.0f, 5.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+        Mat4 projection = Matrix::perspectiveMatrix(45.0f * M_PI / 180.0f, 800.0f / 600.0f, 0.1f, 100.0f);
 
         // Use shader program
         glUseProgram(shaderProgram);
@@ -183,7 +183,7 @@ int main() {
         glUniform3fv(glGetUniformLocation(shaderProgram, "viewPos"), 1, cameraPos);
         glUniform3fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, lightColor);
         glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, objectColor);
-        glUniform1f(glGetUniformLocation(shaderProgram, "shininess"), 16.0f);  // Adjust shininess as needed
+        glUniform1f(glGetUniformLocation(shaderProgram, "shininess"), 32.0f);
 
         // Set uniforms
         int modelLoc = glGetUniformLocation(shaderProgram, "model");

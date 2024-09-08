@@ -18,10 +18,10 @@ void main() {
     
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(lightPos - FragPos); // Direction of the light
-    float diff = max(dot(norm, lightDir), 0.3);
+    float diff = max(dot(norm, lightDir), 0.2);
     vec3 diffuse = diff * lightColor;
     
-    float specularStrength = 0.5;
+    float specularStrength = 0.3;
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
